@@ -5,6 +5,10 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
+permissions:
+  id-token: write     # <-- REQUIRED for OIDC
+  contents: read 
+
 env:
   AZURE_WEBAPP_NAME: credit-check-app-2025
   AZURE_RESOURCE_GROUP: creditcheck-rg
