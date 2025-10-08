@@ -7,7 +7,7 @@ on:
 
 env:
   AZURE_WEBAPP_NAME: credit-check-app-2025
-  DJANGO_SETTINGS_MODULE: config.settings
+  DJANGO_SETTINGS_MODULE: config.config.settings
   PYTHONPATH: .
 
 jobs:
