@@ -39,6 +39,7 @@ if host:
 # Application definition
 
 INSTALLED_APPS = [
+    "whitenoise.runserver_nostatic",  # let WhiteNoise handle static files
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -46,7 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "score",
-    "whitenoise.runserver_nostatic",  # let WhiteNoise handle static
+    
 ]
 
 MIDDLEWARE = [
