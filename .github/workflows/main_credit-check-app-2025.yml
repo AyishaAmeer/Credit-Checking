@@ -5,10 +5,14 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
+env:
+  AZURE_WEBAPP_NAME: credit-check-app-2025
+  DJANGO_SETTINGS_MODULE: config.settings
+  PYTHONPATH: .
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
@@ -17,32 +21,27 @@ jobs:
         with:
           python-version: "3.10"
 
-      # Install deps so we can run manage.py tasks during the job
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Build static assets now (not on Azure)
-      - name: Collect static
+      - name: Collect static (no manage.py path required)
         run: |
-          python manage.py collectstatic --noinput
+          python -m django collectstatic --noinput
 
-      # Vendor dependencies so Azure can run without building
       - name: Vendor site-packages for Azure
         run: |
           mkdir -p .python_packages/lib/site-packages
-          pip install --no-deps -r requirements.txt -t .python_packages/lib/site-packages
+          pip install -r requirements.txt -t .python_packages/lib/site-packages
 
-      # Create a deployable artifact
       - name: Create deploy artifact
-        run: |
-          zip -r release.zip . -x ".git/*" ".github/*"
+        run: zip -r release.zip . -x ".git/*" ".github/*"
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'credit-check-app-2025'
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
           slot-name: 'production'
           publish-profile: ${{ secrets.AzureAppService_PublishProfile_b0c933e2562f42fba85e3bb12ca32c44 }}
           package: release.zip
