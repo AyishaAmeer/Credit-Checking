@@ -84,10 +84,25 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+if os.getenv("WEBSITE_SITE_NAME"):  # running on Azure App Service
+    SQLITE_DIR = os.getenv("SQLITE_DIR", "/home/data")
+    # Create the directory if it doesn't exist
+    os.makedirs(SQLITE_DIR, exist_ok=True)
+    DB_PATH = os.path.join(SQLITE_DIR, "db.sqlite3")
+else:
+    DB_PATH = BASE_DIR / "db.sqlite3"
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": DB_PATH,
     }
 }
 
