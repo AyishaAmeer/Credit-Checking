@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Credit Score Checker</title>
+    <style>
+      body{font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem;}
+      form p{display:flex; gap:.5rem; align-items:baseline}
+      label{min-width: 14rem}
+      input{flex:1; padding:.5rem}
+      .card{border:1px solid #ddd; padding:1rem; border-radius:.5rem; margin-top:1rem}
+    </style>
+  </head>
+  <body>
+    <h1>Credit Score Checker (demo)</h1>
+    <p><small>This is a simplified, educational calculator—not a real credit score.</small></p>
+    <form method="post" class="card">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      {% for field in form %}
+        <p>
+          <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+          {{ field }}
+          {% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}
+          {{ field.errors }}
+        </p>
+      {% endfor %}
+      <button type="submit">Calculate</button>
+    </form>
+
+    {% if result %}
+      <div class="card">
+        <h2>Your demo score: {{ result.score }}</h2>
+        <p>Band: <strong>{{ result.band }}</strong></p>
+        <p><small>Range: 300 (poor) → 850 (excellent)</small></p>
+      </div>
+    {% endif %}
+  </body>
+</html>

@@ -1,0 +1,4 @@
+Django==5.2
+whitenoise
+gunicorn
+#gunicorn-23.0.0 packaging-25.0 whitenoise-6.11.0 
