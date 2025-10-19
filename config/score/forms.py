@@ -9,7 +9,4 @@ class CreditForm(forms.Form):
     on_time_payments = forms.IntegerField(min_value=0)
     missed_payments = forms.IntegerField(min_value=0)
     history_years = forms.FloatField(min_value=0, help_text="Years of credit history")
-    inquiries_last_6_months = forms.IntegerField(min_value=0)
-
-    
-    
+    #inquiries_last_6_months = forms.IntegerField(min_value=0)
